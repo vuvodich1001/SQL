@@ -32,6 +32,7 @@ create table HoaDon(
 	NgMH smalldatetime,
 	MaKH char(4),
 	MaNV char(4),
+	TriGia money,
 )
 create table CTHD(
 	SoHD int not null,
@@ -91,8 +92,12 @@ alter table SanPham
 drop column GhiChu
 -- Cau 6
 alter table KhachHang
+alter column LoaiKH varchar(20)
+
+alter table KhachHang
 add constraint CHK_KhachHang_LoaiKH
-check (LoaiKH in ('vang lai', 'vip', 'vip'))
+check (LoaiKH in ('vang lai', 'vip', 'thuong'))
+
 -- Cau 7
 alter table SanPham
 add constraint CHK_SanPham_DVT
@@ -130,3 +135,63 @@ select * from CTHD
 where MaSp like 'B%'
 select count(nv.MaNV) as SoLuongNhanVien, count(hd.MaKH) as SoLuongHoaDon from NhanVien nv, HoaDon hd
 select distinct * from NhanVien, HoaDon
+
+-- Phan 2
+-- Cau 1 import du lieu bang file exel
+-- Cau 2
+select * into SanPham1 from SanPham
+select * into KhachHang1 from KhachHang
+
+-- Cau 3
+update SanPham1 
+set Gia = Gia + Gia * 0.05
+where (NuocSX = 'Thai Lan')
+
+-- Cau 4
+update SanPham1
+set Gia = Gia - Gia * 0.05
+where (NuocSX = 'Trung Quoc' and Gia < 10000)
+
+-- Cau 5
+update KhachHang1
+set LoaiKH = 'Vip'
+where (NgDK < 1/1/2007 and DoanhSo >= 10000000 or NgDK >= 1/1/2007 and DoanhSo >= 2000000) 
+
+-- Phan 3
+-- Cau 1
+select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc')
+
+-- Cau 2
+select MaSP, TenSP from SanPham where (DVT = 'cay' or DVT = 'quyen')
+
+-- Cau 3
+select MaSP, TenSP from SanPham where (MaSP like 'B%01')
+--c2: select MaSP, TenSP from SanPham where (left(MaSP, 1) = 'B' and right(MaSP, 2) = '01')
+
+-- Cau 4
+select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc' and (Gia between 30000 and 40000))
+
+-- Cau 5
+select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc' or NuocSX = 'Thai Lan' ) and (Gia between 30000 and 40000)
+
+-- Cau 6
+select SoHD, TriGia from HoaDon where (NgMH = '1/1/2007' or NgMH = '2/1/2007')
+
+-- Cau 7
+select SoHD, TriGia from HoaDon where (NgMH >= '1/1/2007' and NgMH <= '1/1/2007') order by SoHD asc, TriGia desc
+
+-- Cau 8
+select hd.MaKH, kh.Hoten from HoaDon hd, KhachHang kh where (hd.NgMH = '1/1/2007' and hd.MaKH = kh.MaKH)
+
+-- Cau 9
+select hd.SoHD, hd.TriGia from HoaDon hd, NhanVien nv where (NgMH = '28/10/2006' and hd.MaNV = nv.MaNV and nv.HoTen = 'Nguyen Van B')
+
+-- Cau 10
+select distinct ct.MaSP, sp.TenSP from SanPham sp, KhachHang kh, HoaDon hd, CTHD ct
+where ((hd.NgMH between '1/10/2006' and '31/10/2006') and hd.MaKH = kh.MaKH and ct.SoHD =  hd.SoHD and kh.Hoten = 'Nguyen Van A' and ct.MaSP = sp.MaSP)
+
+-- Cau 11
+select SoHD from CTHD  where (MaSP = 'BB01' or MaSP = 'BB02')
+
+-- Cau 12
+select SoHD from CTHD where (MaSP = 'BB01' or MaSp = 'BB02') and (SL between 10 and 20) 
