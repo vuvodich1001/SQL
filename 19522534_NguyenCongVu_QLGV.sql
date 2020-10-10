@@ -153,6 +153,7 @@ add DiemTB numeric(4, 2)
 alter table HocVien
 add XepLoai varchar(10)
 
+
 -- Cau 2 da co san khi tao table
 -- Cau 3
 alter table GiaoVien
@@ -199,9 +200,22 @@ check (HocVi in ('CN', 'KS', 'Ths', 'TS', 'PtS'))
 
 -- Phan 3
 -- Cau 1
+select hv.MaHV, hv.Ho, hv.Ten, hv.NgSinh, hv.MaLop from Lop l, HocVien hv where(l.MaLop = hv.MaLop and l.TrLop = hv.MaHV)
 
+-- Cau 2
+select distinct kq.MaHV, hv.Ho, hv.Ten, kq.LanThi, kq.Diem from KetQuaThi kq, HocVien hv where(left(kq.MaHV, 3) = 'K12' and kq.MaHV = hv.MaHV)
 
+-- Cau 3
+select distinct kq.MaHV, kq.MaMH, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv where(kq.LanThi = '1' and kq.KetQua = 'Dat' and kq.MaHV = hv.MaHV)
 
+-- Cau 4
+select kq.MaHV, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv 
+where(left(kq.MaHV, 3) = 'K11' and kq.MaMH = 'CTRR' and kq.LanThi = '1' and kq.KetQua = 'Khong Dat' and kq.MaHV = hv.MaHV)
 
+-- Cau 6
+select distinct gd.MaMH from GiaoVien gv, GiangDay gd
+where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaGV = gv.MaGV and gv.HoTen = 'Tran Tam Thanh')
 
-
+-- Cau 7
+select distinct gd.MaMH, mh.TenMH from GiaoVien gv, GiangDay gd, Lop l, MonHoc mh
+where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaMH = mh.MaMH and l.MaLop = 'K11' and l.MaGVCN = gd.MaGV)
