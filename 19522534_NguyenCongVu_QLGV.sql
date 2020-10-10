@@ -92,6 +92,8 @@ foreign key (MaKh) references Khoa(MaKh)
 alter table Khoa 
 add constraint FK_Khoa
 foreign key (TrKh) references GiaoVien(MaGV)
+alter table Khoa
+drop constraint FK_Khoa
 
 alter table MonHoc
 add constraint FK_MonHoc
@@ -105,6 +107,8 @@ foreign key (MaGVCN) references GiaoVien(MaGV)
 alter table Lop
 add constraint FK_Lop_TrLop
 foreign key (TrLop) references HocVien(MaHV)
+alter table Lop
+drop constraint FK_Lop_TrLop
 
 alter table  GiangDay
 add constraint FK_GiangDay_MaMH
@@ -139,6 +143,7 @@ add constraint FK_HocVien
 foreign key (MaLop) references Lop(MaLop)
 
 -- them 3  column ghichu, diemtb, xep loai
+
 alter table HocVien
 add GhiChu varchar(10)
 
@@ -163,13 +168,13 @@ alter table KetQuaThi
 alter column Diem numeric(4, 2)
 
 -- Cau 5
-update KetQuaThi
-set KetQua = 'Dat'
-where (Diem >= 5)
+alter table KetQuaThi
+add constraint CHK_KetQuaThi_Dat
+check (Diem >= 5 and KetQua = 'Dat')
 
-update KetQuaThi
-set KetQua = 'Khong Dat'
-where (Diem < 5)
+alter table KetQuaThi
+add constraint CHK_KetQuaThi_KhongDat
+check (Diem < 5 and KetQua = 'Khong Dat')
 
 -- Cau 6
 alter table KetQuaThi
@@ -187,4 +192,16 @@ add constraint CHK_GiangDay_HocVi
 check (HocVi in ('CN', 'KS', 'Ths', 'TS', 'PtS'))
 
 -- Cau 9, Cau 10 ...
+
+-- Phan 2
+-- Cau 1 insert du lieu vao bang
+-- import du lieu tu file excel
+
+-- Phan 3
+-- Cau 1
+
+
+
+
+
 
