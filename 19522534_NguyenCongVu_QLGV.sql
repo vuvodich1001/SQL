@@ -194,6 +194,26 @@ check (HocVi in ('CN', 'KS', 'Ths', 'TS', 'PtS'))
 
 -- Cau 9, Cau 10 ...
 
+-- Cau 11
+alter table HocVien
+add constraint CHK_HocVien_Age
+check (year(getdate())  - year(NgSinh) >= 18)
+
+-- Cau 12
+alter table GiangDay
+add constraint CHK_GiangDay_Day
+check (TuNgay < DenNgay)
+
+-- Cau 13
+alter table GiaoVien
+add constraint CHK_GiaoVien_Age
+check (year(NgVL) - year(NgSinh) >= 22)
+
+-- Cau 14
+alter table MonHoc
+add constraint CHK_MonHoc_TinChi
+check (abs(TCLT - TCTH) <= 3)
+
 -- Phan 2
 -- Cau 1 insert du lieu vao bang
 -- import du lieu tu file excel
@@ -211,6 +231,10 @@ select distinct kq.MaHV, kq.MaMH, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv wh
 -- Cau 4
 select kq.MaHV, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv 
 where(left(kq.MaHV, 3) = 'K11' and kq.MaMH = 'CTRR' and kq.LanThi = '1' and kq.KetQua = 'Khong Dat' and kq.MaHV = hv.MaHV)
+
+--Cau 5
+select kq.MaHV, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv 
+where(left(kq.MaHV, 1) = 'K' and kq.MaMH = 'CTRR' and kq.LanThi = '3' and kq.KetQua = 'Khong Dat' and kq.MaHV = hv.MaHV)
 
 -- Cau 6
 select distinct gd.MaMH from GiaoVien gv, GiangDay gd
