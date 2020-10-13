@@ -220,21 +220,21 @@ check (abs(TCLT - TCTH) <= 3)
 
 -- Phan 3
 -- Cau 1
-select hv.MaHV, hv.Ho, hv.Ten, hv.NgSinh, hv.MaLop from Lop l, HocVien hv where(l.MaLop = hv.MaLop and l.TrLop = hv.MaHV)
+select hv.MaHV, hv.Ho, hv.Ten, hv.NgSinh, hv.MaLop from HocVien hv, Lop l where(l.MaLop = hv.MaLop and l.TrLop = hv.MaHV)
 
 -- Cau 2
-select distinct kq.MaHV, hv.Ho, hv.Ten, kq.LanThi, kq.Diem from KetQuaThi kq, HocVien hv where(left(kq.MaHV, 3) = 'K12' and kq.MaHV = hv.MaHV)
+select distinct hv.MaHV, hv.Ho, hv.Ten, kq.LanThi, kq.Diem from HocVien hv, KetQuaThi kq where(left(kq.MaHV, 3) = 'K12' and hv.MaHV = kq.MaHV)
 
 -- Cau 3
-select distinct kq.MaHV, kq.MaMH, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv where(kq.LanThi = '1' and kq.KetQua = 'Dat' and kq.MaHV = hv.MaHV)
+select distinct hv.MaHV, kq.MaMH, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq where(kq.LanThi = '1' and kq.KetQua = 'Dat' and hv.MaHV = kq.MaHV)
 
 -- Cau 4
-select kq.MaHV, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv 
-where(left(kq.MaHV, 3) = 'K11' and kq.MaMH = 'CTRR' and kq.LanThi = '1' and kq.KetQua = 'Khong Dat' and kq.MaHV = hv.MaHV)
+select hv.MaHV, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq 
+where(left(kq.MaHV, 3) = 'K11' and kq.MaMH = 'CTRR' and kq.LanThi = '1' and kq.KetQua = 'Khong Dat' and hv.MaHV = kq.MaHV)
 
 --Cau 5
-select kq.MaHV, hv.Ho, hv.Ten from KetQuaThi kq, HocVien hv 
-where(left(kq.MaHV, 1) = 'K' and kq.MaMH = 'CTRR' and kq.LanThi = '3' and kq.KetQua = 'Khong Dat' and kq.MaHV = hv.MaHV)
+select hv.MaHV, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq 
+where(left(kq.MaHV, 1) = 'K' and kq.MaMH = 'CTRR' and kq.LanThi = '3' and kq.KetQua = 'Khong Dat' and hv.MaHV = kq.MaHV)
 
 -- Cau 6
 select distinct gd.MaMH from GiaoVien gv, GiangDay gd
