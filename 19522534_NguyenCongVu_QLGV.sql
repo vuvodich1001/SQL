@@ -243,3 +243,4 @@ where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaGV = gv.MaGV and gv.HoTen = 'T
 -- Cau 7
 select distinct gd.MaMH, mh.TenMH from GiaoVien gv, GiangDay gd, Lop l, MonHoc mh
 where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaMH = mh.MaMH and l.MaLop = 'K11' and l.MaGVCN = gd.MaGV)
+-- Cau 8
