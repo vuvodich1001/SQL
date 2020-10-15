@@ -223,7 +223,7 @@ check (abs(TCLT - TCTH) <= 3)
 select hv.MaHV, hv.Ho, hv.Ten, hv.NgSinh, hv.MaLop from HocVien hv, Lop l where(l.MaLop = hv.MaLop and l.TrLop = hv.MaHV)
 
 -- Cau 2
-select distinct hv.MaHV, hv.Ho, hv.Ten, kq.LanThi, kq.Diem from HocVien hv, KetQuaThi kq where(left(kq.MaHV, 3) = 'K12' and hv.MaHV = kq.MaHV)
+select distinct hv.MaHV, (hv.Ho + ' ' + hv.Ten) as HoTen, kq.LanThi, kq.Diem from HocVien hv, KetQuaThi kq where(left(kq.MaHV, 3) = 'K12' and hv.MaHV = kq.MaHV)
 
 -- Cau 3
 select distinct hv.MaHV, kq.MaMH, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq where(kq.LanThi = '1' and kq.KetQua = 'Dat' and hv.MaHV = kq.MaHV)
@@ -243,4 +243,3 @@ where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaGV = gv.MaGV and gv.HoTen = 'T
 -- Cau 7
 select distinct gd.MaMH, mh.TenMH from GiaoVien gv, GiangDay gd, Lop l, MonHoc mh
 where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaMH = mh.MaMH and l.MaLop = 'K11' and l.MaGVCN = gd.MaGV)
--- Cau 8
