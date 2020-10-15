@@ -81,7 +81,7 @@ create table KetQuaThi(
 	KetQua varchar(10),
 	constraint PK_KetQuaThi primary key(MaHV, MaMH, LanThi)
 )
-
+-- PHAN 1
 -- Cau 1 
 -- Tao Khoa ngoai va khoa chinh (da tao o tren)
 alter table GiaoVien
@@ -214,16 +214,16 @@ alter table MonHoc
 add constraint CHK_MonHoc_TinChi
 check (abs(TCLT - TCTH) <= 3)
 
--- Phan 2
+-- PHAN 2
 -- Cau 1 insert du lieu vao bang
 -- import du lieu tu file excel
 
--- Phan 3
+-- PHAN 3
 -- Cau 1
 select hv.MaHV, hv.Ho, hv.Ten, hv.NgSinh, hv.MaLop from HocVien hv, Lop l where(l.MaLop = hv.MaLop and l.TrLop = hv.MaHV)
 
 -- Cau 2
-select distinct hv.MaHV, (hv.Ho + ' ' + hv.Ten) as HoTen, kq.LanThi, kq.Diem from HocVien hv, KetQuaThi kq where(left(kq.MaHV, 3) = 'K12' and hv.MaHV = kq.MaHV)
+select distinct hv.MaHV, hv.Ho, hv.Ten as HoTen, kq.LanThi, kq.Diem from HocVien hv, KetQuaThi kq where(left(kq.MaHV, 3) = 'K12' and hv.MaHV = kq.MaHV)
 
 -- Cau 3
 select distinct hv.MaHV, kq.MaMH, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq where(kq.LanThi = '1' and kq.KetQua = 'Dat' and hv.MaHV = kq.MaHV)
