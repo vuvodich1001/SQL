@@ -243,3 +243,10 @@ where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaGV = gv.MaGV and gv.HoTen = 'T
 -- Cau 7
 select distinct gd.MaMH, mh.TenMH from GiaoVien gv, GiangDay gd, Lop l, MonHoc mh
 where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaMH = mh.MaMH and l.MaLop = 'K11' and l.MaGVCN = gd.MaGV)
+
+-- Cau 8
+select hv.Ho, Hv.Ten from HocVien hv, GiangDay gd, GiaoVien gv, MonHoc mh, Lop l
+where(gv.MaGV = gd.MaGV and gv.HoTen = 'Nguyen To Lan' and mh.MaMH = gd.MaMH and mh.TenMH = 'Co So Du lieu' and gd.MaLop = l.MaLop and l.TrLop = hv.MaHV)
+
+-- Cau 9
+select dk.MaMH_Truoc, mh.TenMH from MonHoc mh, DieuKien dk where(dk.MaMH = 'CSDL' and dk.MaMH_Truoc = mh.MaMH)
