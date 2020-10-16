@@ -39,6 +39,7 @@ create table CTHD(
 	MaSp char(4) not null,
 	SL int,
 )
+-- PHAN 1
 --Cau 1
 --Tao khoa chinh
 alter table KhachHang
@@ -116,29 +117,9 @@ alter table KhachHang
 add constraint CHK_KhachHang_NgayDK
 check (NgDK > NgSinh)
 
--- Test import du lieu vao table NhanVien
-insert into NhanVien values('NV01', 'Nguyen Cong Vu', '0967979521', '20200927')
-insert into NhanVien values('NV02', 'Nguyen Van A', '0977979521', '20190925')
-insert into NhanVien values('NV03', 'Tran Van B', '0967679521', '20180925')
-insert into NhanVien values('NV04', 'Le Thi C', '0967970521', '20200127')
-
--- Truy van
--- Cac ham dem tim max, min, avg, sum
-select * from CTHD
-select max(SL) as SoLuongNhoNhat from CTHD
-select count(SL) as TongSoLuong from CTHD
-select sum(SL) as TongSoLuong from CTHD
-select avg(SL) as TrungBinh from CTHD
-
--- Nhung ma sp bat dau bang chu B (LIKE), co the mo rong ra de tim kiem tuong tu
-select * from CTHD 
-where MaSp like 'B%'
-select count(nv.MaNV) as SoLuongNhanVien, count(hd.MaKH) as SoLuongHoaDon from NhanVien nv, HoaDon hd
-select distinct * from NhanVien, HoaDon
-
--- Phan 2
--- Cau 1 import du lieu bang file exel
--- import cho table NhanVien
+-- PHAN 2
+-- Cau 1 
+-- Nhap du lieu vao table NhanVien
 insert into NhanVien(MaNV, HoTen, SoDT, NgayVL)
 values ('NV01', 'Nguyen Nhu Nhut', '0927345678', '13/04/2006'),
 	('NV02', 'Le Thi Phi Yen', '0987567390', '21/04/2006'),
@@ -146,7 +127,7 @@ values ('NV01', 'Nguyen Nhu Nhut', '0927345678', '13/04/2006'),
 	('NV04', 'Ngo Thanh Tuan', '0913758498', '24/06/2006'),
 	('NV05', 'Nguyen Thi Truc Thanh', '0918590387', '20/07/2006')
 
--- import cho table KhachHang
+-- Nhap du lieu vao table KhachHang
 insert into KhachHang(MaKH, HoTen, DiaChi, SoDT, NgSinh, NgDK, DoanhSo)
 values ('KH01', 'Nguyen Van A', '731 Tran Hung Dao, Q5, TpHCM', '8823451', '22/10/1960', '22/07/2006', '13060000'),
 	('KH02', 'Tran Ngoc Han', '23/5 Nguyen Trai, Q5, TpHCM', '908256478', '03/04/1974', '30/07/2006', '280000'),
@@ -159,7 +140,7 @@ values ('KH01', 'Nguyen Van A', '731 Tran Hung Dao, Q5, TpHCM', '8823451', '22/1
 	('KH09', 'Le Ha Vinh', '873 Le Hong Phong, Q5, TpHCM', '8654763', '03/09/1979', '14/01/2007', '70000'),
 	('KH10', 'Ha Duy Lap', '34/34B Nguyen Trai, Q1, TpHCM', '8768904', '02/05/1983', '16/01/2007', '67500')
 
--- import vao table HoaDon
+-- Nhap du lieu vao table HoaDon
 insert into HoaDon(SoHD, NgMH, MaKH, MaNV, TriGia)
 values ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
 	('1002', '12/08/2006', 'KH01', 'NV02', '840000'),
@@ -185,7 +166,7 @@ values ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
 	('1022', '16/01/2007', 'KH01', 'NV03', '7000'),
 	('1023', '17/01/2007', 'KH02', 'NV01', '330000')
 
--- import vao table SanPham
+-- Nhap du lieu vao table SanPham
  insert into SanPham(MaSP, TenSP, DVT, NuocSX, Gia)
  values ('BC01', 'But chi', 'cay', 'Singapore', '3000'),
 	('BC02', 'But chi', 'cay', 'Singapore', '5000'),
@@ -212,8 +193,8 @@ values ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
 	('ST09', 'But long', 'cay', 'Viet Nam', '5000'),
 	('ST10', 'But long', 'cay', 'Trung Quoc', '7000')
 
--- import vao table CTHD
-insert into CTHD(SoHD, MaSp, SL)
+-- Nhap du lieu vao table CTHD 
+insert into CTHD(SoHD, MaSP, SL)
 values ('1001', 'TV02', '10'),
 	('1001', 'ST01', '5'),
 	('1001', 'BC01', '5'),
@@ -263,7 +244,6 @@ values ('1001', 'TV02', '10'),
 	('1022', 'ST07', '1'),
 	('1023', 'ST04', '6')
 
-
 -- Cau 2
 select * into SanPham1 from SanPham
 select * into KhachHang1 from KhachHang
@@ -283,7 +263,7 @@ update KhachHang1
 set LoaiKH = 'Vip'
 where (NgDK < 1/1/2007 and DoanhSo >= 10000000 or NgDK >= 1/1/2007 and DoanhSo >= 2000000) 
 
--- Phan 3
+--PHAN 3
 -- Cau 1
 select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc')
 
@@ -321,3 +301,5 @@ select SoHD from CTHD  where (MaSP = 'BB01' or MaSP = 'BB02')
 
 -- Cau 12
 select SoHD from CTHD where (MaSP = 'BB01' or MaSp = 'BB02') and (SL between 10 and 20) 
+
+
