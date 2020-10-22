@@ -302,4 +302,3 @@ select SoHD from CTHD  where (MaSP = 'BB01' or MaSP = 'BB02')
 -- Cau 12
 select SoHD from CTHD where (MaSP = 'BB01' or MaSp = 'BB02') and (SL between 10 and 20) 
 
-
