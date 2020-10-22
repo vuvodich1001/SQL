@@ -1,135 +1,135 @@
--- Tao database QLBH
-create database QlBH
-go
-use QLBH
--- Tao cac bang
-create table KhachHang(
-	MaKH char(4) not null,
-	HoTen varchar(40),
-	DiaChi varchar(50),
-	SoDT varchar(20),
-	NgSinh smalldatetime,
-	NgDK smalldatetime,
-	DoanhSo money,
+-- TAO DATABASE QLBH
+CREATE DATABASE QLBH1
+GO
+USE QLBH1
+-- TAO CAC BANG
+CREATE TABLE KHACHHANG(
+	MAKH CHAR(4) NOT NULL,
+	HOTEN VARCHAR(40),
+	DIACHI VARCHAR(50),
+	SODT VARCHAR(20),
+	NGSINH SMALLDATETIME,
+	NGDK SMALLDATETIME,
+	DOANHSO MONEY,
 )
 
-create table NhanVien(
-	MaNV char(4) not null,
-	HoTen varchar(40),
-	SoDT varchar(20) not null,
-	NgayVL smalldatetime,
+CREATE TABLE NHANVIEN(
+	MANV CHAR(4) NOT NULL,
+	HOTEN VARCHAR(40),
+	SODT VARCHAR(20) NOT NULL,
+	NGAYVL SMALLDATETIME,
 )
 
-create table SanPham(
-	MaSP char(4) not null,
-	TenSP varchar(40),
-	DVT varchar(20),
-	NuocSX varchar(40),
-	Gia money,
+CREATE TABLE SANPHAM(
+	MASP CHAR(4) NOT NULL,
+	TENSP VARCHAR(40),
+	DVT VARCHAR(20),
+	NUOCSX VARCHAR(40),
+	GIA MONEY,
 )
-create table HoaDon(
-	SoHD int not null,
-	NgMH smalldatetime,
-	MaKH char(4),
-	MaNV char(4),
-	TriGia money,
+CREATE TABLE HOADON(
+	SOHD INT NOT NULL,
+	NGMH SMALLDATETIME,
+	MAKH CHAR(4),
+	MANV CHAR(4),
+	TRIGIA MONEY,
 )
-create table CTHD(
-	SoHD int not null,
-	MaSp char(4) not null,
-	SL int,
+CREATE TABLE CTHD(
+	SOHD INT NOT NULL,
+	MASP CHAR(4) NOT NULL,
+	SL INT,
 )
 -- PHAN 1
---Cau 1
---Tao khoa chinh
-alter table KhachHang
-add constraint PK_KhachHang
-primary key(MaKH)
+--CAU 1
+--TAO KHOA CHINH
+ALTER TABLE KHACHHANG
+ADD CONSTRAINT PK_KHACHHANG
+PRIMARY KEY(MAKH)
 
-alter table NhanVien
-add constraint PK_NhanVien
-primary key(MaNV)
+ALTER TABLE NHANVIEN
+ADD CONSTRAINT PK_NHANVIEN
+PRIMARY KEY(MANV)
 
-alter table SanPham
-add constraint PK_SanPham
-primary key(MaSP)
+ALTER TABLE SANPHAM
+ADD CONSTRAINT PK_SANPHAM
+PRIMARY KEY(MASP)
 
-alter table HoaDon
-add constraint PK_HoaDon
-primary key(SoHD)
+ALTER TABLE HOADON
+ADD CONSTRAINT PK_HOADON
+PRIMARY KEY(SOHD)
 
-alter table CTHD
-add constraint PK_CTHD
-primary key(SoHD, MaSP)
+ALTER TABLE CTHD
+ADD CONSTRAINT PK_CTHD
+PRIMARY KEY(SOHD, MASP)
 
--- Tao khoa ngoai
-alter table HoaDon
-add constraint FK_HoaDon_MaKH
-foreign key (MaKH) references KhachHang(MaKH)
+-- TAO KHOA NGOAI
+ALTER TABLE HOADON
+ADD CONSTRAINT FK_HOADON_MAKH
+FOREIGN KEY (MAKH) REFERENCES KHACHHANG(MAKH)
 
-alter table HoaDon
-add constraint FK_HoaDon_MaNV
-foreign key (MaNV) references NhanVien(MaNV)
+ALTER TABLE HOADON
+ADD CONSTRAINT FK_HOADON_MANV
+FOREIGN KEY (MANV) REFERENCES NHANVIEN(MANV)
 
-alter table CTHD
-add constraint FK_CTHD_MaSP
-foreign key (MaSP) references SanPham(MaSP)
+ALTER TABLE CTHD
+ADD CONSTRAINT FK_CTHD_MASP
+FOREIGN KEY (MASP) REFERENCES SANPHAM(MASP)
 
-alter table CTHD
-add constraint FK_CTHD_SoHD
-foreign key (SoHD) references HoaDon(SoHD)
+ALTER TABLE CTHD
+ADD CONSTRAINT FK_CTHD_SOHD
+FOREIGN KEY (SOHD) REFERENCES HOADON(SOHD)
 
--- Cau 2
-alter table SanPham
-add GhiChu varchar(20)
--- Cau 3
-alter table KhachHang
-add LoaiKH tinyint
--- Cau 4
-alter table SanPham
-alter column GhiChu varchar(100)
--- Cau 5
-alter table SanPham
-drop column GhiChu
--- Cau 6
-alter table KhachHang
-alter column LoaiKH varchar(20)
+-- CAU 2
+ALTER TABLE SANPHAM
+ADD GHICHU VARCHAR(20)
+-- CAU 3
+ALTER TABLE KHACHHANG
+ADD LOAIKH TINYINT
+-- CAU 4
+ALTER TABLE SANPHAM
+ALTER COLUMN GHICHU VARCHAR(100)
+-- CAU 5
+ALTER TABLE SANPHAM
+DROP COLUMN GHICHU
+-- CAU 6
+ALTER TABLE KHACHHANG
+ALTER COLUMN LOAIKH VARCHAR(20)
 
-alter table KhachHang
-add constraint CHK_KhachHang_LoaiKH
-check (LoaiKH in ('vang lai', 'vip', 'thuong'))
+ALTER TABLE KHACHHANG
+ADD CONSTRAINT CHK_KHACHHANG_LOAIKH
+CHECK (LOAIKH IN ('vang lai', 'vip', 'thuong'))
 
--- Cau 7
-alter table SanPham
-add constraint CHK_SanPham_DVT
-check (DVT in ('cay', 'hop', 'cai', 'quyen', 'chuc'))
--- Cau 8
-alter table SanPham
-add constraint CHK_SanPham_Gia
-check (Gia > 500)
--- Cau 9
-alter table CTHD
-add constraint CHK_SanPham_SL
-check (SL > 1)
+-- CAU 7
+ALTER TABLE SANPHAM
+ADD CONSTRAINT CHK_SANPHAM_DVT
+CHECK (DVT IN ('cay', 'hop', 'cai', 'quyen', 'chuc'))
+-- CAU 8
+ALTER TABLE SANPHAM
+ADD CONSTRAINT CHK_SANPHAM_GIA
+CHECK (GIA > 500)
+-- CAU 9
+ALTER TABLE CTHD
+ADD CONSTRAINT CHK_SANPHAM_SL
+CHECK (SL >= 1)
 
--- Cau 10
-alter table KhachHang
-add constraint CHK_KhachHang_NgayDK
-check (NgDK > NgSinh)
+-- CAU 10
+ALTER TABLE KHACHHANG
+ADD CONSTRAINT CHK_KHACHHANG_NGAYDK
+CHECK (NGDK > NGSINH)
 
 -- PHAN 2
--- Cau 1 
--- Nhap du lieu vao table NhanVien
-insert into NhanVien(MaNV, HoTen, SoDT, NgayVL)
-values ('NV01', 'Nguyen Nhu Nhut', '0927345678', '13/04/2006'),
+-- CAU 1 
+-- NHAP DU LIEU VAO TABLE NHANVIEN
+INSERT INTO NHANVIEN(MANV, HOTEN, SODT, NGAYVL)
+VALUES ('NV01', 'Nguyen Nhu Nhut', '0927345678', '13/04/2006'),
 	('NV02', 'Le Thi Phi Yen', '0987567390', '21/04/2006'),
 	('NV03', 'Nguyen Van B', '0997047382', '27/04/2006'),
 	('NV04', 'Ngo Thanh Tuan', '0913758498', '24/06/2006'),
 	('NV05', 'Nguyen Thi Truc Thanh', '0918590387', '20/07/2006')
 
 -- Nhap du lieu vao table KhachHang
-insert into KhachHang(MaKH, HoTen, DiaChi, SoDT, NgSinh, NgDK, DoanhSo)
-values ('KH01', 'Nguyen Van A', '731 Tran Hung Dao, Q5, TpHCM', '8823451', '22/10/1960', '22/07/2006', '13060000'),
+INSERT INTO KhachHang(MaKH, HoTen, DiaChi, SoDT, NgSinh, NgDK, DoanhSo)
+VALUES ('KH01', 'Nguyen Van A', '731 Tran Hung Dao, Q5, TpHCM', '8823451', '22/10/1960', '22/07/2006', '13060000'),
 	('KH02', 'Tran Ngoc Han', '23/5 Nguyen Trai, Q5, TpHCM', '908256478', '03/04/1974', '30/07/2006', '280000'),
 	('KH03', 'Tran Ngoc Linh', '45 Nguyen Canh Chan, Q1, TpHCM', '938776266', '12/06/1980', '05/08/2006', '3860000'),
 	('KH04', 'Tran Minh Long', '50/34 Le Dai Hanh, Q10, TpHCM', '917325476', '09/03/1965', '02/10/2006', '250000'),
@@ -141,8 +141,8 @@ values ('KH01', 'Nguyen Van A', '731 Tran Hung Dao, Q5, TpHCM', '8823451', '22/1
 	('KH10', 'Ha Duy Lap', '34/34B Nguyen Trai, Q1, TpHCM', '8768904', '02/05/1983', '16/01/2007', '67500')
 
 -- Nhap du lieu vao table HoaDon
-insert into HoaDon(SoHD, NgMH, MaKH, MaNV, TriGia)
-values ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
+INSERT INTO HOADON(SOHD, NGMH, MAKH, MANV, TRIGIA)
+VALUES ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
 	('1002', '12/08/2006', 'KH01', 'NV02', '840000'),
 	('1003', '23/08/2006', 'KH02', 'NV01', '100000'),
 	('1004', '01/09/2006', 'KH02', 'NV01', '180000'),
@@ -167,8 +167,8 @@ values ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
 	('1023', '17/01/2007', 'KH02', 'NV01', '330000')
 
 -- Nhap du lieu vao table SanPham
- insert into SanPham(MaSP, TenSP, DVT, NuocSX, Gia)
- values ('BC01', 'But chi', 'cay', 'Singapore', '3000'),
+INSERT INTO SANPHAM(MASP, TENSP, DVT, NUOCSX, GIA)
+VALUES ('BC01', 'But chi', 'cay', 'Singapore', '3000'),
 	('BC02', 'But chi', 'cay', 'Singapore', '5000'),
 	('BC03', 'But chi', 'cay', 'Viet Nam', '3500'),
 	('BC04', 'But chi', 'hop', 'Viet Nam', '30000'),
@@ -194,8 +194,8 @@ values ('1001', '23/07/2006', 'KH01', 'NV01', '320000'),
 	('ST10', 'But long', 'cay', 'Trung Quoc', '7000')
 
 -- Nhap du lieu vao table CTHD 
-insert into CTHD(SoHD, MaSP, SL)
-values ('1001', 'TV02', '10'),
+INSERT INTO CTHD(SOHD, MASP, SL)
+VALUES ('1001', 'TV02', '10'),
 	('1001', 'ST01', '5'),
 	('1001', 'BC01', '5'),
 	('1001', 'BC02', '10'),
@@ -244,61 +244,93 @@ values ('1001', 'TV02', '10'),
 	('1022', 'ST07', '1'),
 	('1023', 'ST04', '6')
 
--- Cau 2
-select * into SanPham1 from SanPham
-select * into KhachHang1 from KhachHang
+	-- CAU 2
+SELECT * INTO SANPHAM1 FROM SANPHAM
+SELECT * INTO KHACHHANG1 FROM KHACHHANG
 
--- Cau 3
-update SanPham1 
-set Gia = Gia + Gia * 0.05
-where (NuocSX = 'Thai Lan')
+-- CAU 3
+UPDATE SANPHAM1 
+SET GIA = GIA + GIA * 0.05
+WHERE (NUOCSX = 'Thai Lan')
 
--- Cau 4
-update SanPham1
-set Gia = Gia - Gia * 0.05
-where (NuocSX = 'Trung Quoc' and Gia < 10000)
+-- CAU 4
+UPDATE SANPHAM1
+SET GIA = GIA - GIA * 0.05
+WHERE (NUOCSX = 'Trung Quoc' AND GIA < 10000)
 
--- Cau 5
-update KhachHang1
-set LoaiKH = 'Vip'
-where (NgDK < 1/1/2007 and DoanhSo >= 10000000 or NgDK >= 1/1/2007 and DoanhSo >= 2000000) 
+-- CAU 5
+UPDATE KHACHHANG1
+SET LOAIKH = 'vip'
+WHERE (NGDK < 1/1/2007 AND DOANHSO >= 10000000 OR NGDK >= 1/1/2007 AND DOANHSO >= 2000000) 
 
 --PHAN 3
--- Cau 1
-select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc')
+-- CAU 1
+SELECT MASP, TENSP FROM SANPHAM WHERE (NUOCSX = 'Trung Quoc')
 
--- Cau 2
-select MaSP, TenSP from SanPham where (DVT = 'cay' or DVT = 'quyen')
+-- CAU 2
+SELECT MASP, TENSP FROM SANPHAM WHERE (DVT = 'cay' OR DVT = 'quyen')
 
--- Cau 3
-select MaSP, TenSP from SanPham where (MaSP like 'B%01')
---c2: select MaSP, TenSP from SanPham where (left(MaSP, 1) = 'B' and right(MaSP, 2) = '01')
+-- CAU 3
+SELECT MASP, TENSP FROM SANPHAM WHERE (MASP LIKE 'B%01')
+--C2: SELECT MASP, TENSP FROM SANPHAM WHERE (LEFT(MASP, 1) = 'B' AND RIGHT(MASP, 2) = '01')
 
--- Cau 4
-select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc' and (Gia between 30000 and 40000))
+-- CAU 4
+SELECT MASP, TENSP FROM SANPHAM WHERE (NUOCSX = 'Trung Quoc' AND (GIA BETWEEN 30000 AND 40000))
 
--- Cau 5
-select MaSP, TenSP from SanPham where (NuocSX = 'Trung Quoc' or NuocSX = 'Thai Lan' ) and (Gia between 30000 and 40000)
+-- CAU 5
+SELECT MASP, TENSP FROM SANPHAM WHERE (NUOCSX = 'Trung Quoc' OR NUOCSX = 'Thai Lan' ) AND (GIA BETWEEN 30000 AND 40000)
 
--- Cau 6
-select SoHD, TriGia from HoaDon where (NgMH = '1/1/2007' or NgMH = '2/1/2007')
+-- CAU 6
+SELECT SOHD, TRIGIA FROM HOADON WHERE (NGMH = '1/1/2007' OR NGMH = '2/1/2007')
 
--- Cau 7
-select SoHD, TriGia from HoaDon where (NgMH >= '1/1/2007' and NgMH <= '1/1/2007') order by SoHD asc, TriGia desc
+-- CAU 7
+SELECT SOHD, TRIGIA FROM HOADON WHERE (NGMH >= '1/1/2007' AND NGMH <= '1/1/2007') ORDER BY SOHD ASC, TRIGIA DESC
 
--- Cau 8
-select hd.MaKH, kh.Hoten from HoaDon hd, KhachHang kh where (hd.NgMH = '1/1/2007' and hd.MaKH = kh.MaKH)
+-- CAU 8
+SELECT HD.MAKH, KH.HOTEN FROM HOADON HD, KHACHHANG KH WHERE (HD.NGMH = '1/1/2007' AND HD.MAKH = KH.MAKH)
 
--- Cau 9
-select hd.SoHD, hd.TriGia from HoaDon hd, NhanVien nv where (NgMH = '28/10/2006' and hd.MaNV = nv.MaNV and nv.HoTen = 'Nguyen Van B')
+-- CAU 9
+SELECT HD.SOHD, HD.TRIGIA FROM HOADON HD, NHANVIEN NV WHERE (NGMH = '28/10/2006' AND HD.MANV = NV.MANV AND NV.HOTEN = 'NGUYEN VAN B')
 
--- Cau 10
-select distinct ct.MaSP, sp.TenSP from SanPham sp, KhachHang kh, HoaDon hd, CTHD ct
-where ((hd.NgMH between '1/10/2006' and '31/10/2006') and hd.MaKH = kh.MaKH and ct.SoHD =  hd.SoHD and kh.Hoten = 'Nguyen Van A' and ct.MaSP = sp.MaSP)
+-- CAU 10
+SELECT DISTINCT CT.MASP, SP.TENSP FROM SANPHAM SP, KHACHHANG KH, HOADON HD, CTHD CT
+WHERE ((HD.NGMH BETWEEN '1/10/2006' AND '31/10/2006') AND HD.MAKH = KH.MAKH AND CT.SOHD =  HD.SOHD AND KH.HOTEN = 'NGUYEN VAN A' AND CT.MASP = SP.MASP)
 
--- Cau 11
-select SoHD from CTHD  where (MaSP = 'BB01' or MaSP = 'BB02')
+-- CAU 11
+SELECT SOHD FROM CTHD  WHERE (MASP = 'BB01' OR MASP = 'BB02')
 
--- Cau 12
-select SoHD from CTHD where (MaSP = 'BB01' or MaSp = 'BB02') and (SL between 10 and 20) 
+-- CAU 12
+SELECT SOHD FROM CTHD WHERE (MASP = 'BB01' OR MASP = 'BB02') AND (SL BETWEEN 10 AND 20) 
 
+-- CAU 13
+SELECT A.SOHD FROM CTHD A 
+WHERE A.MASP = 'BB01' AND A.SL BETWEEN 10 AND 20 
+AND EXISTS (SELECT * FROM CTHD B WHERE B.MASP = 'BB02' AND SL BETWEEN 10 AND 20 AND A.SOHD = B.SOHD)
+
+-- CAU 14
+SELECT MASP, TENSP FROM SANPHAM WHERE NUOCSX = 'Trung Quoc'
+UNION
+SELECT SP.MASP, SP.TENSP FROM HOADON HD, SANPHAM SP, CTHD C 
+WHERE HD.SOHD = C.SOHD AND HD.NGMH = '1/1/2007' AND C.MASP = SP.MASP
+
+-- CAU 15
+SELECT MASP, TENSP FROM SANPHAM
+EXCEPT 
+SELECT DISTINCT SP.MASP, SP.TENSP FROM CTHD C, SANPHAM SP WHERE SP.MASP = C.MASP
+
+-- CAU 16
+/*C1*/
+SELECT MASP, TENSP FROM SANPHAM 
+EXCEPT
+SELECT DISTINCT SP.MASP, SP.TENSP FROM HOADON HD, SANPHAM SP, CTHD C 
+WHERE HD.SOHD = C.SOHD AND YEAR(HD.NGMH) = 2006 AND C.MASP = SP.MASP 
+/*C2*/
+SELECT MASP, TENSP FROM SANPHAM WHERE 
+MASP NOT IN (SELECT C.MASP FROM CTHD C, HOADON HD WHERE C.SOHD = HD.SOHD AND YEAR(HD.NGMH) = 2006)
+
+-- CAU 17
+SELECT MASP, TENSP FROM SANPHAM 
+WHERE MASP NOT IN (SELECT C.MASP FROM CTHD C, HOADON HD WHERE C.SOHD = HD.SOHD AND YEAR(HD.NGMH) = 2006)
+AND NUOCSX = 'Trung Quoc'
+
+-- CAU 18

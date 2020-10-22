@@ -1,252 +1,260 @@
--- Tao database QLGV
-create database QLGV
-go
-use QLGV
--- Tao cac bang va khoa chinh
-create table Khoa(
-	MaKh varchar(4),
-	TenKh varchar(20),
-	NgTLap smalldatetime,
-	TrKh char(4),
-	constraint PK_Khoa primary key(MaKh)
+-- TAO DATABASE QLGV
+CREATE DATABASE QLGV1
+GO
+USE QLGV1
+-- TAO CAC BANG VA KHOA CHINH
+CREATE TABLE KHOA(
+	MAKH VARCHAR(4),
+	TENKH VARCHAR(20),
+	NGTLAP SMALLDATETIME,
+	TRKH CHAR(4),
+	CONSTRAINT PK_KHOA PRIMARY KEY(MAKH)
 )
 
-create table MonHoc(
-	MaMH varchar(10),
-	TenMH varchar(40),
-	TCLT tinyint,
-	TCTH tinyint,
-	MaKh varchar(4),
-	constraint PK_MonHoc primary key(MaMH)
+CREATE TABLE MONHOC(
+	MAMH VARCHAR(10),
+	TENMH VARCHAR(40),
+	TCLT TINYINT,
+	TCTH TINYINT,
+	MAKH VARCHAR(4),
+	CONSTRAINT PK_MONHOC PRIMARY KEY(MAMH)
 )
 
-create table DieuKien(
-	MaMH varchar(10),
-	MaMH_Truoc varchar(10),
-	constraint PK_DieuKine primary key(MaMH, MaMH_Truoc)
+CREATE TABLE DIEUKIEN(
+	MAMH VARCHAR(10),
+	MAMH_TRUOC VARCHAR(10),
+	CONSTRAINT PK_DIEUKINE PRIMARY KEY(MAMH, MAMH_TRUOC)
 )
 
-create table GiaoVien(
-	MaGV char(4),
-	HoTen varchar(40),
-	HocVi varchar(10),
-	HocHam varchar(10),
-	GioiTinh varchar(3),
-	NgSinh smalldatetime,
-	NgVL smalldatetime,
-	HeSo numeric(4, 2),
-	MucLuong money,
-	MaKh varchar(4),
-	constraint PK_GiaoVien primary key(MaGV)
+CREATE TABLE GIAOVIEN(
+	MAGV CHAR(4),
+	HOTEN VARCHAR(40),
+	HOCVI VARCHAR(10),
+	HOCHAM VARCHAR(10),
+	GIOITINH VARCHAR(3),
+	NGSINH SMALLDATETIME,
+	NGVL SMALLDATETIME,
+	HESO NUMERIC(4, 2),
+	MUCLUONG MONEY,
+	MAKH VARCHAR(4),
+	CONSTRAINT PK_GIAOVIEN PRIMARY KEY(MAGV)
 )
 
 
-create table Lop(
-	MaLop char(3),
-	TenLop varchar(40),
-	TrLop char(5),
-	SiSo tinyint,
-	MaGVCN char(4), 
-	constraint PK_Lop primary key(MaLop)
+CREATE TABLE LOP(
+	MALOP CHAR(3),
+	TENLOP VARCHAR(40),
+	TRLOP CHAR(5),
+	SISO TINYINT,
+	MAGVCN CHAR(4), 
+	CONSTRAINT PK_LOP PRIMARY KEY(MALOP)
 )
 
-create table HocVien(
-	MaHV char(5),
-	Ho varchar(10),
-	Ten varchar(10),
-	NgSinh smalldatetime,
-	GioiTinh varchar(3),
-	NoiSinh varchar(40), 
-	MaLop char(3), 
-	constraint PK_HocVien primary key(MaHV)
+CREATE TABLE HOCVIEN(
+	MAHV CHAR(5),
+	HO VARCHAR(10),
+	TEN VARCHAR(10),
+	NGSINH SMALLDATETIME,
+	GIOITINH VARCHAR(3),
+	NOISINH VARCHAR(40), 
+	MALOP CHAR(3), 
+	CONSTRAINT PK_HOCVIEN PRIMARY KEY(MAHV)
 )
 
-create table GiangDay(
-	MaLop char(3),
-	MaMH varchar(10),
-	MaGV char(4),
-	HocKy tinyint,
-	Nam smallint,
-	TuNgay smalldatetime,
-	DenNgay smalldatetime,
-	constraint PK_GiangDay primary key(MaLop, MaMH)
+CREATE TABLE GIANGDAY(
+	MALOP CHAR(3),
+	MAMH VARCHAR(10),
+	MAGV CHAR(4),
+	HOCKY TINYINT,
+	NAM SMALLINT,
+	TUNGAY SMALLDATETIME,
+	DENNGAY SMALLDATETIME,
+	CONSTRAINT PK_GIANGDAY PRIMARY KEY(MALOP, MAMH)
 )
 
-create table KetQuaThi(
-	MaHV char(5),
-	MaMH varchar(10),
-	LanThi tinyint,
-	NgThi smalldatetime,
-	Diem numeric(4, 2),
-	KetQua varchar(10),
-	constraint PK_KetQuaThi primary key(MaHV, MaMH, LanThi)
+CREATE TABLE KETQUATHI(
+	MAHV CHAR(5),
+	MAMH VARCHAR(10),
+	LANTHI TINYINT,
+	NGTHI SMALLDATETIME,
+	DIEM NUMERIC(4, 2),
+	KETQUA VARCHAR(10),
+	CONSTRAINT PK_KETQUATHI PRIMARY KEY(MAHV, MAMH, LANTHI)
 )
 -- PHAN 1
--- Cau 1 
--- Tao Khoa ngoai va khoa chinh (da tao o tren)
-alter table GiaoVien
-add constraint FK_GiaoVien
-foreign key (MaKh) references Khoa(MaKh)
+-- CAU 1 
+-- TAO KHOA NGOAI VA KHOA CHINH (DA TAO O TREN)
+ALTER TABLE GIAOVIEN
+ADD CONSTRAINT FK_GIAOVIEN
+FOREIGN KEY (MAKH) REFERENCES KHOA(MAKH)
 
---fix 
-alter table Khoa 
-add constraint FK_Khoa
-foreign key (TrKh) references GiaoVien(MaGV)
-alter table Khoa
-drop constraint FK_Khoa
+--FIX 
+ALTER TABLE KHOA 
+ADD CONSTRAINT FK_KHOA
+FOREIGN KEY (TRKH) REFERENCES GIAOVIEN(MAGV)
+ALTER TABLE KHOA
+DROP CONSTRAINT FK_KHOA
 
-alter table MonHoc
-add constraint FK_MonHoc
-foreign key (MaKh) references Khoa(MaKh)
+ALTER TABLE MONHOC
+ADD CONSTRAINT FK_MONHOC
+FOREIGN KEY (MAKH) REFERENCES KHOA(MAKH)
 
-alter table Lop
-add constraint FK_Lop_MaGVCN
-foreign key (MaGVCN) references GiaoVien(MaGV)
+ALTER TABLE LOP
+ADD CONSTRAINT FK_LOP_MAGVCN
+FOREIGN KEY (MAGVCN) REFERENCES GIAOVIEN(MAGV)
 
--- fix
-alter table Lop
-add constraint FK_Lop_TrLop
-foreign key (TrLop) references HocVien(MaHV)
-alter table Lop
-drop constraint FK_Lop_TrLop
+-- FIX
+ALTER TABLE LOP
+ADD CONSTRAINT FK_LOP_TRLOP
+FOREIGN KEY (TRLOP) REFERENCES HOCVIEN(MAHV)
+ALTER TABLE LOP
+DROP CONSTRAINT FK_LOP_TRLOP
 
-alter table  GiangDay
-add constraint FK_GiangDay_MaMH
-foreign key (MaMH) references MonHoc(MaMH)
+ALTER TABLE  GIANGDAY
+ADD CONSTRAINT FK_GIANGDAY_MAMH
+FOREIGN KEY (MAMH) REFERENCES MONHOC(MAMH)
 
-alter table GiangDay
-add constraint FK_GiangDay_MaGV
-foreign key (MaGV) references GiaoVien(MaGV)
+ALTER TABLE GIANGDAY
+ADD CONSTRAINT FK_GIANGDAY_MAGV
+FOREIGN KEY (MAGV) REFERENCES GIAOVIEN(MAGV)
 
-alter table GiangDay
-add constraint FK_GiangDay_MaLop
-foreign key (MaLop) references Lop(MaLop)
+ALTER TABLE GIANGDAY
+ADD CONSTRAINT FK_GIANGDAY_MALOP
+FOREIGN KEY (MALOP) REFERENCES LOP(MALOP)
 
-alter table DieuKien
-add constraint FK_DieuKien_MaMH
-foreign key (MaMH) references MonHoc(MaMH)
+ALTER TABLE DIEUKIEN
+ADD CONSTRAINT FK_DIEUKIEN_MAMH
+FOREIGN KEY (MAMH) REFERENCES MONHOC(MAMH)
 
-alter table DieuKien
-add constraint FK_DieuKien_MaMHTruoc
-foreign key (MaMH_Truoc) references MonHoc(MaMH)
+ALTER TABLE DIEUKIEN
+ADD CONSTRAINT FK_DIEUKIEN_MAMHTRUOC
+FOREIGN KEY (MAMH_TRUOC) REFERENCES MONHOC(MAMH)
 
-alter table KetQuaThi
-add constraint FK_KetQuaThi_MaHV
-foreign key (MaHV) references HocVien(MaHV)
+ALTER TABLE KETQUATHI
+ADD CONSTRAINT FK_KETQUATHI_MAHV
+FOREIGN KEY (MAHV) REFERENCES HOCVIEN(MAHV)
 
-alter table KetQuaThi
-add constraint FK_KetQuaThi_MaMh
-foreign key (MaMh) references MonHoc(MaMH)
+ALTER TABLE KETQUATHI
+ADD CONSTRAINT FK_KETQUATHI_MAMH
+FOREIGN KEY (MAMH) REFERENCES MONHOC(MAMH)
 
-alter table HocVien
-add constraint FK_HocVien
-foreign key (MaLop) references Lop(MaLop)
+ALTER TABLE HOCVIEN
+ADD CONSTRAINT FK_HOCVIEN
+FOREIGN KEY (MALOP) REFERENCES LOP(MALOP)
 
--- them 3  column ghichu, diemtb, xep loai
+-- THEM 3  COLUMN GHICHU, DIEMTB, XEP LOAI
 
-alter table HocVien
-add GhiChu varchar(10)
+ALTER TABLE HOCVIEN
+ADD GHICHU VARCHAR(10)
 
-alter table HocVien
-add DiemTB numeric(4, 2)
+ALTER TABLE HOCVIEN
+ADD DIEMTB NUMERIC(4, 2)
 
-alter table HocVien
-add XepLoai varchar(10)
+ALTER TABLE HOCVIEN
+ADD XEPLOAI VARCHAR(10)
 
 
--- Cau 2 da co san khi tao table
--- Cau 3
-alter table GiaoVien
-add constraint CHK_GiaoVien_GioiTinh
-check (GioiTinh in ('Nam', 'Nu'))
+-- CAU 2 DA CO SAN KHI TAO TABLE
+-- CAU 3
+ALTER TABLE GIAOVIEN
+ADD CONSTRAINT CHK_GIAOVIEN_GIOITINH
+CHECK (GIOITINH IN ('Nam', 'Nu'))
 
-alter table HocVien
-add constraint CHK_HocVien_GioiTinh
-check (GioiTinh in ('Nam', 'Nu'))
+ALTER TABLE HOCVIEN
+ADD CONSTRAINT CHK_HOCVIEN_GIOITINH
+CHECK (GIOITINH IN ('Nam', 'Nu'))
 
--- Cau 4
-alter table KetQuaThi
-alter column Diem numeric(4, 2)
+-- CAU 4
+ALTER TABLE KETQUATHI
+ALTER COLUMN DIEM NUMERIC(4, 2)
 
--- Cau 5
-alter table KetQuaThi
-add constraint CHK_KetQuaThi_Dat
-check (Diem >= 5 and KetQua = 'Dat')
+-- CAU 5
+ALTER TABLE KETQUATHI
+ADD CONSTRAINT CHK_KETQUATHI_DAT
+CHECK (DIEM >= 5 AND KETQUA = 'Dat')
 
-alter table KetQuaThi
-add constraint CHK_KetQuaThi_KhongDat
-check (Diem < 5 and KetQua = 'Khong Dat')
+ALTER TABLE KETQUATHI
+ADD CONSTRAINT CHK_KETQUATHI_KHONGDAT
+CHECK (DIEM < 5 AND KETQUA = 'Khong Dat')
 
--- Cau 6
-alter table KetQuaThi
-add constraint CHK_KetQuaThi_LanThi
-check (Lanthi <= 3)
+-- CAU 6
+ALTER TABLE KETQUATHI
+ADD CONSTRAINT CHK_KETQUATHI_LANTHI
+CHECK (LANTHI <= 3)
 
--- Cau 7
-alter table GiangDay
-add constraint CHK_GiangDay_HocKy
-check (HocKy >= 1 and HocKy <= 3)
+-- CAU 7
+ALTER TABLE GIANGDAY
+ADD CONSTRAINT CHK_GIANGDAY_HOCKY
+CHECK (HOCKY >= 1 AND HOCKY <= 3)
 
--- Cau 8
-alter table GiaoVien
-add constraint CHK_GiangDay_HocVi
-check (HocVi in ('CN', 'KS', 'Ths', 'TS', 'PtS'))
+-- CAU 8
+ALTER TABLE GIAOVIEN
+ADD CONSTRAINT CHK_GIANGDAY_HOCVI
+CHECK (HOCVI IN ('CN', 'KS', 'THS', 'TS', 'PTS'))
 
--- Cau 9, Cau 10 ...
+-- CAU 9, CAU 10 ...
 
--- Cau 11
-alter table HocVien
-add constraint CHK_HocVien_Age
-check (year(getdate())  - year(NgSinh) >= 18)
+-- CAU 11
+ALTER TABLE HOCVIEN
+ADD CONSTRAINT CHK_HOCVIEN_AGE
+CHECK (YEAR(GETDATE())  - YEAR(NGSINH) >= 18)
 
--- Cau 12
-alter table GiangDay
-add constraint CHK_GiangDay_Day
-check (TuNgay < DenNgay)
+-- CAU 12
+ALTER TABLE GIANGDAY
+ADD CONSTRAINT CHK_GIANGDAY_DAY
+CHECK (TUNGAY < DENNGAY)
 
--- Cau 13
-alter table GiaoVien
-add constraint CHK_GiaoVien_Age
-check (year(NgVL) - year(NgSinh) >= 22)
+-- CAU 13
+ALTER TABLE GIAOVIEN
+ADD CONSTRAINT CHK_GIAOVIEN_AGE
+CHECK (YEAR(NGVL) - YEAR(NGSINH) >= 22)
 
--- Cau 14
-alter table MonHoc
-add constraint CHK_MonHoc_TinChi
-check (abs(TCLT - TCTH) <= 3)
+-- CAU 14
+ALTER TABLE MONHOC
+ADD CONSTRAINT CHK_MONHOC_TINCHI
+CHECK (ABS(TCLT - TCTH) <= 3)
 
+/*IMPORT DU LIEU TU BANG EXCEL*/
 -- PHAN 2
--- Cau 1 insert du lieu vao bang
--- import du lieu tu file excel
+-- CAU 1 
+UPDATE GIAOVIEN
+SET HESO = HESO + 0.2
+WHERE MAGV IN (SELECT TRKH FROM KHOA)
+
+-- CAU 2
+
+-- CAU 3
 
 -- PHAN 3
--- Cau 1
-select hv.MaHV, hv.Ho, hv.Ten, hv.NgSinh, hv.MaLop from HocVien hv, Lop l where(l.MaLop = hv.MaLop and l.TrLop = hv.MaHV)
+-- CAU 1 
+SELECT HV.MAHV, HV.HO, HV.TEN, HV.NGSINH, HV.MALOP FROM HOCVIEN HV, LOP L WHERE(L.MALOP = HV.MALOP AND L.TRLOP = HV.MAHV)
 
--- Cau 2
-select distinct hv.MaHV, hv.Ho, hv.Ten as HoTen, kq.LanThi, kq.Diem from HocVien hv, KetQuaThi kq where(left(kq.MaHV, 3) = 'K12' and hv.MaHV = kq.MaHV)
+-- CAU 2
+SELECT DISTINCT HV.MAHV, (HV.HO + ' ' + HV.TEN) AS HOTEN , KQ.LANTHI, KQ.DIEM FROM HOCVIEN HV, KETQUATHI KQ WHERE(LEFT(KQ.MAHV, 3) = 'K12' AND HV.MAHV = KQ.MAHV)
 
--- Cau 3
-select distinct hv.MaHV, kq.MaMH, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq where(kq.LanThi = '1' and kq.KetQua = 'Dat' and hv.MaHV = kq.MaHV)
+-- CAU 3
+SELECT DISTINCT HV.MAHV, KQ.MAMH, HV.HO, HV.TEN FROM HOCVIEN HV, KETQUATHI KQ WHERE(KQ.LANTHI = '1' AND KQ.KETQUA = 'Dat' AND HV.MAHV = KQ.MAHV)
 
--- Cau 4
-select hv.MaHV, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq 
-where(left(kq.MaHV, 3) = 'K11' and kq.MaMH = 'CTRR' and kq.LanThi = '1' and kq.KetQua = 'Khong Dat' and hv.MaHV = kq.MaHV)
+-- CAU 4
+SELECT HV.MAHV, HV.HO, HV.TEN FROM HOCVIEN HV, KETQUATHI KQ 
+WHERE(LEFT(KQ.MAHV, 3) = 'K11' AND KQ.MAMH = 'CTRR' AND KQ.LANTHI = '1' AND KQ.KETQUA = 'Khong Dat' AND HV.MAHV = KQ.MAHV)
 
---Cau 5
-select hv.MaHV, hv.Ho, hv.Ten from HocVien hv, KetQuaThi kq 
-where(left(kq.MaHV, 1) = 'K' and kq.MaMH = 'CTRR' and kq.LanThi = '3' and kq.KetQua = 'Khong Dat' and hv.MaHV = kq.MaHV)
+--CAU 5
+SELECT HV.MAHV, HV.HO, HV.TEN FROM HOCVIEN HV, KETQUATHI KQ 
+WHERE(LEFT(KQ.MAHV, 1) = 'K' AND KQ.MAMH = 'CTRR' AND KQ.LANTHI = '3' AND KQ.KETQUA = 'Khong Dat' AND HV.MAHV = KQ.MAHV)
 
--- Cau 6
-select distinct gd.MaMH from GiaoVien gv, GiangDay gd
-where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaGV = gv.MaGV and gv.HoTen = 'Tran Tam Thanh')
+-- CAU 6
+SELECT DISTINCT GD.MAMH FROM GIAOVIEN GV, GIANGDAY GD
+WHERE(GD.HOCKY = '1' AND GD.NAM = '2006' AND GD.MAGV = GV.MAGV AND GV.HOTEN = 'Tran Tam Thanh')
 
--- Cau 7
-select distinct gd.MaMH, mh.TenMH from GiaoVien gv, GiangDay gd, Lop l, MonHoc mh
-where(gd.HocKy = '1' and gd.Nam = '2006' and gd.MaMH = mh.MaMH and l.MaLop = 'K11' and l.MaGVCN = gd.MaGV)
+-- CAU 7
+SELECT DISTINCT GD.MAMH, MH.TENMH FROM GIAOVIEN GV, GIANGDAY GD, LOP L, MONHOC MH
+WHERE(GD.HOCKY = '1' AND GD.NAM = '2006' AND GD.MAMH = MH.MAMH AND L.MALOP = 'K11' AND L.MAGVCN = GD.MAGV)
 
--- Cau 8
-select hv.Ho, Hv.Ten from HocVien hv, GiangDay gd, GiaoVien gv, MonHoc mh, Lop l
-where(gv.MaGV = gd.MaGV and gv.HoTen = 'Nguyen To Lan' and mh.MaMH = gd.MaMH and mh.TenMH = 'Co So Du lieu' and gd.MaLop = l.MaLop and l.TrLop = hv.MaHV)
+-- CAU 8
+SELECT HV.HO, HV.TEN FROM HOCVIEN HV, GIANGDAY GD, GIAOVIEN GV, MONHOC MH, LOP L
+WHERE(GV.MAGV = GD.MAGV AND GV.HOTEN = 'Nguyen To Lan' AND MH.MAMH = GD.MAMH AND MH.TENMH = 'Co so du lieu' AND GD.MALOP = L.MALOP AND L.TRLOP = HV.MAHV)
 
--- Cau 9
-select dk.MaMH_Truoc, mh.TenMH from MonHoc mh, DieuKien dk where(dk.MaMH = 'CSDL' and dk.MaMH_Truoc = mh.MaMH)
+-- CAU 9
+SELECT DK.MAMH_TRUOC, MH.TENMH FROM MONHOC MH, DIEUKIEN DK WHERE(DK.MAMH = 'CSDL' AND DK.MAMH_TRUOC = MH.MAMH)
+
