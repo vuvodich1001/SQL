@@ -299,7 +299,6 @@ WHERE ((HD.NGMH BETWEEN '1/10/2006' AND '31/10/2006') AND HD.MAKH = KH.MAKH AND 
 -- CAU 11
 SELECT SOHD FROM CTHD  WHERE (MASP = 'BB01' OR MASP = 'BB02')
 
----------------------------------------BAI TH3---------------------------------------
 -- CAU 12
 SELECT SOHD FROM CTHD WHERE (MASP = 'BB01' OR MASP = 'BB02') AND (SL BETWEEN 10 AND 20) 
 
@@ -352,7 +351,7 @@ SELECT SOHD FROM HOADON HD WHERE YEAR(NGMH) = 2006
 AND NOT EXISTS (SELECT * FROM SANPHAM SP WHERE NUOCSX = 'Singapore'
 AND NOT EXISTS (SELECT * FROM CTHD C WHERE C.MASP = SP.MASP AND HD.SOHD = C.SOHD))
 
----------------------------------------KET THUC BAI TH3---------------------------------------
+---------------------------------------BAT DAU BAI TH4---------------------------------------
 
 -- CAU 20
 SELECT  COUNT(DISTINCT HD.MAKH) AS SL FROM HOADON HD
@@ -469,4 +468,5 @@ HAVING COUNT(HD.SOHD) >= ALL (SELECT COUNT(HD1.SOHD) FROM KHACHHANG KH1 INNER JO
 GROUP BY KH1.MAKH)
 INTERSECT
 SELECT TOP 10 MAKH, HOTEN, DOANHSO FROM KHACHHANG ORDER BY DOANHSO DESC
+---------------------------------------KET THUC BAI TH4---------------------------------------
 
